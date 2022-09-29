@@ -1,0 +1,67 @@
+// const stepButtons = document.querySelectorAll(".step-button");
+// const progress = document.querySelector(".progress");
+
+// Array.from(stepButtons).forEach((button, index) => {
+//   button.addEventListener("click", () => {
+//     progress.setAttribute("value", (index * 100) / (stepButtons.length - 1)); //there are 3 buttons. 2 spaces.
+
+//     stepButtons.forEach((item, secindex) => {
+//       if (index > secindex) {
+//         item.classList.add("done");
+//       }
+//       if (index < secindex) {
+//         item.classList.remove("done");
+//       }
+//     });
+//   });
+// });
+
+const progressBar = document.getElementById("progress-bar");
+const progressNext = document.getElementById("progress-next");
+const progressPrev = document.getElementById("progress-prev");
+const steps = document.querySelectorAll(".step-button");
+let active = 1;
+let width = 10;
+
+const updateProgress = () => {
+  // toggle active class on list items
+  steps.forEach((step, i) => {
+    if (i < active) {
+      step.classList.add("active");
+    } else {
+      step.classList.remove("active");
+    }
+  });
+  // set progress bar width
+  // progressBar.style.width = ((active - 1) / (steps.length - 1)) * 100 + "%";
+
+  // enable disable prev and next buttons
+  if (active === 1) {
+    progressPrev.disabled = true;
+  } else if (active === steps.length) {
+    progressNext.disabled = true;
+  } else {
+    progressPrev.disabled = false;
+    progressNext.disabled = false;
+  }
+};
+
+progressNext.addEventListener("click", () => {
+  width += 13;
+  progressBar.style.width = width + "%";
+  active++;
+  if (active > steps.length) {
+    active = steps.length;
+  }
+  updateProgress();
+});
+
+progressPrev.addEventListener("click", () => {
+  width -= 13;
+  progressBar.style.width = width + "%";
+  active--;
+  if (active < 1) {
+    active = 1;
+  }
+  updateProgress();
+});
